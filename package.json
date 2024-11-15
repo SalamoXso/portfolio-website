@@ -12,9 +12,10 @@
     "predeploy": "npm run build && npm run export",
     "deploy": "gh-pages -d out"
   },
-  "homepage": "https://salamoxso.github.io/storage-website",
+  "homepage": "https://salamoxso.github.io/portfolio-website",
   "dependencies": {
     "autoprefixer": "^10.4.20",
+    "framer-motion": "^11.11.17",
     "lucide-react": "^0.456.0",
     "next": "^15.0.3",
     "react": "^18.2.0",
