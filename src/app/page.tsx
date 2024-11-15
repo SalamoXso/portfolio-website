@@ -1,23 +1,28 @@
 'use client'
-
+import "/src/app/styles/globals.css";
+import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Moon, Sun, Code, Briefcase, User, Mail, ArrowRight } from 'lucide-react'
+import { list } from "postcss";
+import { UseFieldArrayReturn } from "react-hook-form";
 
 // Custom hook for dark mode
-const useDarkMode = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false)
+const useDarkMode = (): [boolean, (value: boolean) => void] => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add('dark')
+      document.documentElement.classList.add('dark');
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove('dark');
     }
-  }, [isDarkMode])
+  }, [isDarkMode]);
 
-  return [isDarkMode, setIsDarkMode]
-}
+  return [isDarkMode, setIsDarkMode];
+};
+
 
 // Animated background component
 const AnimatedBackground = () => {
@@ -42,10 +47,16 @@ const AnimatedBackground = () => {
     </div>
   )
 }
+interface HeaderProps {
+  isDarkMode: boolean;
+  setIsDarkMode: (value: boolean) => void;
+}
 
 // Header component
-const Header = ({ isDarkMode, setIsDarkMode }) => {
-  const [isOpen, setIsOpen] = useState(false)
+const Header = ({ isDarkMode, setIsDarkMode }: HeaderProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  
 
   const navItems = [
     { name: 'Home', icon: <Code className="w-4 h-4" /> },
@@ -63,7 +74,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          YourName
+          Gatonio Banderas
         </motion.a>
 
         <nav className="hidden md:flex space-x-8">
@@ -132,7 +143,7 @@ const Hero = () => {
         >
           Hi, I'm{' '}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
-            YourName
+          Gatonio Banderas
           </span>
         </motion.h1>
         <motion.p
@@ -160,8 +171,16 @@ const Hero = () => {
   )
 }
 
+
+interface SkillProps {
+  name: string;
+  level: number;
+}
+// Header component
+const Skill = ({ name, level }: SkillProps) => {
+  
 // Skill component
-const Skill = ({ name, level }) => {
+
   return (
     <div className="mb-4">
       <div className="flex justify-between mb-1">
@@ -202,8 +221,8 @@ const About = () => {
             transition={{ duration: 0.5 }}
           >
             <img
-              src="/placeholder.svg?height=400&width=400"
-              alt="Your Name"
+              src="/pexels-stefanstefancik-91227.jpg?height=400&width=400"
+              alt="Gatonio Banderas"
               className="w-64 h-64 rounded-full object-cover mx-auto md:mx-0"
             />
           </motion.div>
@@ -227,8 +246,19 @@ const About = () => {
   )
 }
 
+interface ProjectCardProps {
+  title: string;
+  description: string;
+  tags: string[];
+  image: string;
+  link: string;
+  
+}
+// Header component
+const ProjectCard = ({ title, description, image, tags, link,}: ProjectCardProps) =>
+
 // Project card component
-const ProjectCard = ({ title, description, image, tags, link }) => {
+ {
   return (
     <motion.div
       className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105"
@@ -267,21 +297,21 @@ const Projects = () => {
     {
       title: 'E-commerce Platform',
       description: 'A fully responsive e-commerce solution with advanced features and seamless user experience.',
-      image: '/placeholder.svg?height=300&width=400',
+      image: '/Ecom.png',
       tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
       link: '#',
     },
     {
       title: 'Task Management App',
       description: 'A productivity app for managing tasks and projects with real-time collaboration features.',
-      image: '/placeholder.svg?height=300&width=400',
+      image: '/taskmangement.png',
       tags: ['Vue.js', 'Firebase', 'Vuex', 'PWA'],
       link: '#',
     },
     {
       title: 'AI-Powered Analytics Dashboard',
       description: 'An intelligent dashboard providing real-time insights and predictive analytics for businesses.',
-      image: '/placeholder.svg?height=300&width=400',
+      image: '/aianalys.png',
       tags: ['React', 'Python', 'TensorFlow', 'D3.js'],
       link: '#',
     },
@@ -304,8 +334,9 @@ const Projects = () => {
 // Contact form component
 const ContactForm = () => {
   const [formStatus, setFormStatus] = useState('')
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    
     e.preventDefault()
     // Add your form submission logic here
     setFormStatus('Thank you! Your message has been sent.')
@@ -339,7 +370,7 @@ const ContactForm = () => {
           id="message"
           name="message"
           required
-          rows="4"
+          
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-white"
         ></textarea>
       </div>
@@ -402,30 +433,30 @@ const Footer = () => {
 
 // Main App component
 export default function CreativePortfolio() {
-  const [isDarkMode, setIsDarkMode] = useDarkMode()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isDarkMode, setIsDarkMode] = useDarkMode(); // Let TypeScript infer types
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading time
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+      setIsLoading(false);
+    }, 2000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900">
         <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen flex flex-col dark:text-white">
       <AnimatedBackground />
-      <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} /> {/* Fixed prop passing */}
       <main>
         <Hero />
         <About />
@@ -434,5 +465,5 @@ export default function CreativePortfolio() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
